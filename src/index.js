@@ -11,7 +11,6 @@ root.render(
     <StyledEngineProvider injectFirst>
       <CssVarsProvider
         defaultMode="dark"
-        colorSchemeSelector="#demo_dark-mode-by-default"
         modeStorageKey="demo_dark-mode-by-default"
       >
         <App />
