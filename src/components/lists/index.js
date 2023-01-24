@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import ListItem from "@mui/joy/ListItem";
+import { useNavigate } from "react-router-dom";
 
 import Typography from "@mui/joy/Typography";
 import IconButton from "@mui/joy/IconButton";
@@ -11,23 +12,23 @@ import Modal from "@mui/joy/Modal";
 import ModalClose from "@mui/joy/ModalClose";
 import ModalDialog from "@mui/joy/ModalDialog";
 import List from "@mui/joy/List";
-import ListItemDecorator from "@mui/joy/ListItemDecorator";
 import ListItemContent from "@mui/joy/ListItemContent";
 import { Box, Divider } from "@mui/joy";
 import Sheet from "@mui/joy/Sheet";
-import Button from "@mui/joy/Button";
-
-import AppointmentDetail from "../modal";
 
 import http from "../../services/httpService";
-import { useNavigate } from "react-router-dom";
 
 export const DividedList = ({ id, title, description, date }) => {
-  const navigate = useNavigate();
   const [open, setOpen] = React.useState("");
+  const state = { id, title, description, date };
+  const navigate = useNavigate();
 
   const handleOpen = () => {
     setOpen("Open");
+  };
+
+  const handleEditClick = () => {
+    navigate(`edit/${id}`, { state });
   };
 
   const handleDelete = async () => {
@@ -75,7 +76,7 @@ export const DividedList = ({ id, title, description, date }) => {
           </IconButton>
         </Tooltip>
         <Tooltip title="Update Appointment" variant="solid" color="success">
-          <IconButton variant="plain" color="success">
+          <IconButton variant="plain" onClick={handleEditClick} color="success">
             <Edit />
           </IconButton>
         </Tooltip>
@@ -85,6 +86,7 @@ export const DividedList = ({ id, title, description, date }) => {
           </IconButton>
         </Tooltip>
       </ListItem>
+
       <Modal open={!!open} onClose={() => setOpen("")}>
         <ModalDialog
           aria-labelledby="variant-modal-title"
@@ -92,35 +94,23 @@ export const DividedList = ({ id, title, description, date }) => {
           variant={open || undefined}
         >
           <ModalClose />
-          <Sheet
-            component="li"
-            variant="outlined"
-            sx={{
-              borderRadius: "sm",
-              p: 2,
-              listStyle: "none",
-            }}
-          >
-            <Box sx={{ display: "flex", gap: 2, justifyContent: "center" }}>
-              <Box>
-                <Typography level="h2">{id}</Typography>
-              </Box>
-            </Box>
-            <Divider component="div" sx={{ my: 2 }} />
-            <List sx={{ "--List-decorator-size": "48px" }}>
-              <ListItem sx={{ alignItems: "f" }}>
-                <ListItemContent>
-                  <Typography level="h5">{title}</Typography>
-                </ListItemContent>
-                <Typography level="h5">{date}</Typography>
-              </ListItem>
-            </List>
-            <Divider component="div" sx={{ my: 2 }} />
-            <Typography level="h5" fontWeight={4}>
-              Description:
-            </Typography>
-            <Typography level="body1"> {description}</Typography>
-          </Sheet>
+          <Box sx={{ display: "flex", gap: 2, justifyContent: "center" }}>
+            <Typography level="h2">{id}</Typography>
+          </Box>
+          <Divider component="div" sx={{ my: 2 }} />
+          <List sx={{ "--List-decorator-size": "48px" }}>
+            <ListItem sx={{ alignItems: "f" }}>
+              <ListItemContent>
+                <Typography level="h5">{title}</Typography>
+              </ListItemContent>
+              <Typography level="h5">{date}</Typography>
+            </ListItem>
+          </List>
+          <Divider component="div" sx={{ my: 2 }} />
+          <Typography level="h5" fontWeight={4}>
+            Description:
+          </Typography>
+          <Typography level="body1"> {description}</Typography>
         </ModalDialog>
       </Modal>
     </>

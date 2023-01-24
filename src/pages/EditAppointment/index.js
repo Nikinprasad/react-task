@@ -10,28 +10,29 @@ import dayjs from "dayjs";
 import { StaticDatePicker } from "@mui/x-date-pickers/StaticDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { useLocation } from "react-router-dom";
 
 import http from "../../services/httpService";
 
-export default function CreateAppointment() {
+export default function EditAppointment() {
+  const location = useLocation();
   const navigate = useNavigate();
-  const [description, setDescription] = React.useState("");
-  const [title, setTitle] = React.useState("");
-  const [datetime, setDatetime] = React.useState(dayjs(new Date()));
-  // const datetime = "2017-11-01";
+  const [description, setDescription] = React.useState(
+    location.state.description
+  );
+  const [title, setTitle] = React.useState(location.state.title);
+  const [datetime, setDatetime] = React.useState(location.state.date);
 
   const handleSubmit = async (event) => {
-    console.log(datetime);
-
     var x = dayjs(datetime.$d).format("YYYY-MM-DD");
     await http
-      .post("createAppointment", {
+      .put("updateAppointment/" + location.state.id, {
         title,
         description,
         datetime: x,
       })
       .then((res) => {
-        console.log("User added successfully");
+        console.log("Appointment updated successfully");
         navigate("/");
       })
       .catch((err) => {
@@ -48,7 +49,7 @@ export default function CreateAppointment() {
   return (
     <>
       <Typography level="h2" mb={5}>
-        Create Appointment
+        Update Appointment
       </Typography>
       <Box
         sx={{
@@ -96,7 +97,7 @@ export default function CreateAppointment() {
         </LocalizationProvider>
 
         <Button onClick={() => handleSubmit()} sx={{ minWidth: 300 }}>
-          Create
+          Update
         </Button>
       </Box>
     </>

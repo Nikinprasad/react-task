@@ -5,6 +5,7 @@ import { Route, BrowserRouter, Routes } from "react-router-dom";
 import NotFound from "./pages/404";
 import ListAppointment from "./pages/ListAppointment";
 import CreateAppointment from "./pages/CreateAppointment";
+import EditAppointment from "./pages/EditAppointment";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Routes>
             <Route index element={<ListAppointment />} />
             <Route path="add" element={<CreateAppointment />} />
+            <Route exact path="edit/:id" element={<EditAppointment />} />
             <Route path="image" element={<ViewImage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
