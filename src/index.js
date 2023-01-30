@@ -4,7 +4,6 @@ import { experimental_extendTheme as extendMuiTheme } from "@mui/material/styles
 import {
   extendTheme as extendJoyTheme,
   CssVarsProvider,
-  useColorScheme,
   Theme as JoyTheme,
   ThemeCssVar as JoyThemeCssVar,
 } from "@mui/joy/styles";
