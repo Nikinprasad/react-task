@@ -1,34 +1,21 @@
 import React from "react";
-import { deepmerge } from "@mui/utils";
-import { experimental_extendTheme as extendMuiTheme } from "@mui/material/styles";
-import {
-  extendTheme as extendJoyTheme,
-  CssVarsProvider,
-  Theme as JoyTheme,
-  ThemeCssVar as JoyThemeCssVar,
-} from "@mui/joy/styles";
+
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
-import { StyledEngineProvider } from "@mui/material/styles";
+
 import reportWebVitals from "./reportWebVitals";
+import { BrowserRouter } from "react-router-dom";
+import { StyledEngineProvider } from '@mui/joy/styles';
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-const muiTheme = extendMuiTheme();
-const joyTheme = extendJoyTheme();
-const theme = deepmerge(muiTheme, joyTheme);
+
 root.render(
-  <React.StrictMode>
-    <StyledEngineProvider injectFirst>
-      <CssVarsProvider
-        defaultMode="dark"
-        modeStorageKey="demo_dark-mode-by-default"
-        theme={theme}
-      >
-        <App />
-      </CssVarsProvider>
-    </StyledEngineProvider>
-  </React.StrictMode>
+  <StyledEngineProvider injectFirst>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </StyledEngineProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

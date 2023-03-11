@@ -17,9 +17,10 @@ import { Box, Divider } from "@mui/joy";
 
 import http from "../../services/httpService";
 
-export const DividedList = ({ id, title, description, date }) => {
+export const DividedList = ({ id, title, description, date, filename, file }) => {
   const [open, setOpen] = React.useState("");
-  const state = { id, title, description, date };
+  const state = { id, title, description, date, filename };
+  const [fileUrl, setFileUrl] = React.useState();
   const navigate = useNavigate();
 
   const handleOpen = () => {
@@ -27,12 +28,12 @@ export const DividedList = ({ id, title, description, date }) => {
   };
 
   const handleEditClick = () => {
-    navigate(`edit/${id}`, { state });
+    navigate(`/edit/${id}`, { state });
   };
 
   const handleDelete = async () => {
     await http
-      .delete("deleteAppointment/" + id)
+      .delete("appointments/delete/" + id)
       .then((res) => {
         console.log(res.data);
         window.location.reload();
@@ -41,6 +42,17 @@ export const DividedList = ({ id, title, description, date }) => {
         console.error("Error:" + err);
       });
   };
+
+  const fetchData = () => {
+    let n = file.length;
+    var a = document.createElement('a')
+    a.download = filename;
+    a.href = "data:application/octet-stream;base64," + file;
+    a.target = '_blank'
+    a.click()
+    return null;
+  }
+
   return (
     <>
       <ListItem sx={{ justifyContent: "center" }}>
@@ -54,6 +66,9 @@ export const DividedList = ({ id, title, description, date }) => {
       </ListItem>
       <ListItem sx={{ justifyContent: "center" }}>
         <Typography level="body1">{date}</Typography>
+      </ListItem>
+      <ListItem sx={{ justifyContent: "center" }}>
+        <Typography level="body1" onClick={() => fetchData()}>{filename}</Typography>
       </ListItem>
       <ListItem
         sx={{
@@ -110,6 +125,7 @@ export const DividedList = ({ id, title, description, date }) => {
             Description:
           </Typography>
           <Typography level="body1"> {description}</Typography>
+          {/* {console.log(atob(file))} */}
         </ModalDialog>
       </Modal>
     </>

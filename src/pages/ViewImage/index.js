@@ -22,14 +22,14 @@ export default function ViewImage() {
         <Grid container justifyContent="center" spacing={4}>
           {data.length > 0
             ? data.map((datas, index) => (
-                <Grid>
-                  <ImageCards
-                    imgSrc={datas.src}
-                    header={datas.id}
-                    imageAlt={datas.username}
-                  />
-                </Grid>
-              ))
+              <Grid>
+                <ImageCards
+                  imgSrc={datas.src}
+                  header={datas.id}
+                  imageAlt={datas.username}
+                />
+              </Grid>
+            ))
             : ""}
         </Grid>
       </Grid>
